@@ -25,12 +25,29 @@ void printSystemInfo() {
         std::cout << "RAM approx: " << (memSize >> 20) << " MB\n";
 }
 
+bool checkMatrixCorrectness(
+    const std::vector<std::vector<long long>>& original,
+    const std::vector<std::vector<long long>>& final
+) {
+    int N = original.size();
+    for (int col = 0; col < N; col++) {
+        long long sumCol = 0;
+        for (int row = 0; row < N; row++) {
+            sumCol += original[row][col];
+        }
+        if (final[col][col] != sumCol) {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 int main() {
     
     printSystemInfo();
     
-    int N = 10;
+    int N = 1000;
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
     
@@ -49,6 +66,8 @@ int main() {
             std::cout << "\n";
         }
         std::cout << "\n";*/
+    
+        std::vector<std::vector<long long>> originalMatrix = matrix;
     
     auto start = std::chrono::high_resolution_clock::now();
     
@@ -71,6 +90,12 @@ int main() {
             }
             std::cout << "\n";
         }*/
+    
+    if (checkMatrixCorrectness(originalMatrix, matrix)) {
+            std::cout << "Перевірка пройдена!\n";
+        } else {
+            std::cout << "Помилка: діагональ НЕ відповідає сумам!\n";
+        }
 
         std::cout << "Час виконання (мілісекунди): " << durationMs << " ms\n";
     return 0;
